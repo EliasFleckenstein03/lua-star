@@ -26,7 +26,7 @@ end
 
 -- (Internal) Returns a unique key for the start and end points.
 local function keyOf(start, goal)
-    return string.format("%d,%d>%d,%d", start.x, start.y, goal.x, goal.y)
+    return string.format("%d,%d,%d>%d,%d,%d", start.x, start.y, start.z, goal.x, goal.y, goal.z)
 end
 
 -- (Internal) Returns the cached path for start and end points.
@@ -47,10 +47,11 @@ end
 -- (Internal) Return the distance between two points.
 -- This method doesn't bother getting the square root of s, it is faster
 -- and it still works for our use.
-local function distance(x1, y1, x2, y2)
+local function distance(x1, y1, z1, x2, y2, z2)
   local dx = x1 - x2
   local dy = y1 - y2
-  local s = dx * dx + dy * dy
+  local dz = z1 - z2
+  local s = dx * dx + dy * dy + dz * dz
   return s
 end
 
@@ -66,7 +67,7 @@ end
 local function calculateScore(previous, node, goal)
 
     local G = previous.score + 1
-    local H = distance(node.x, node.y, goal.x, goal.y)
+    local H = distance(node.x, node.y, node.z, goal.x, goal.y, goal.z)
     return G + H, G, H
 
 end
@@ -74,7 +75,7 @@ end
 -- (Internal) Returns true if the given list contains the specified item.
 local function listContains(list, item)
     for _, test in ipairs(list) do
-        if test.x == item.x and test.y == item.y then
+        if test.x == item.x and test.y == item.y and test.z == item.z then
             return true
         end
     end
@@ -84,43 +85,39 @@ end
 -- (Internal) Returns the item in the given list.
 local function listItem(list, item)
     for _, test in ipairs(list) do
-        if test.x == item.x and test.y == item.y then
+        if test.x == item.x and test.y == item.y and test.z == item.z then
             return test
         end
     end
 end
 
 -- (Internal) Requests adjacent map values around the given node.
-local function getAdjacent(width, height, node, positionIsOpenFunc, includeDiagonals)
+local function getAdjacent(width, height, depth, node, positionIsOpenFunc, includeDiagonals)
 
     local result = { }
 
-    local positions = {
-        { x = 0, y = -1 },  -- top
-        { x = -1, y = 0 },  -- left
-        { x = 0, y = 1 },   -- bottom
-        { x = 1, y = 0 },   -- right
-    }
+	local positions = {}
 
-    if includeDiagonals then
-        local diagonalMovements = {
-            { x = -1, y = -1 },   -- top left
-            { x = 1, y = -1 },   -- top right
-            { x = -1, y = 1 },   -- bot left
-            { x = 1, y = 1 },   -- bot right
-        }
+    for x = -1, 1 do
+    for y = -1, 1 do
+    for z = -1, 1 do
+		local a = math.abs(x) + math.abs(y) + math.abs(z)
 
-        for _, value in ipairs(diagonalMovements) do
-            table.insert(positions, value)
-        end
+		if a ~= 0 and includeDiagonals or a == 1 then
+			table.insert(positions, {x = x, y = y, z = z})
+		end
+    end
+    end
     end
 
     for _, point in ipairs(positions) do
         local px = clamp(node.x + point.x, 1, width)
         local py = clamp(node.y + point.y, 1, height)
-        local value = positionIsOpenFunc( px, py )
+        local pz = clamp(node.z + point.z, 1, depth)
+
+        local value = positionIsOpenFunc( px, py, pz )
         if value then
-            table.insert( result, { x = px, y = py  } )
+            table.insert( result, { x = px, y = py, z = pz  } )
         end
     end
 
@@ -129,7 +126,7 @@ local function getAdjacent(width, height, node, positionIsOpenFunc, includeDiago
 end
 
 -- Returns the path from start to goal, or false if no path exists.
-function module:find(width, height, start, goal, positionIsOpenFunc, useCache, excludeDiagonalMoving)
+function module:find(width, height, depth, start, goal, positionIsOpenFunc, useCache, excludeDiagonalMoving)
 
     if useCache then
         local cachedPath = getCached(start, goal)
@@ -144,8 +141,8 @@ function module:find(width, height, start, goal, positionIsOpenFunc, useCache, e
 
     start.score = 0
     start.G = 0
-    start.H = distance(start.x, start.y, goal.x, goal.y)
-    start.parent = { x = 0, y = 0 }
+    start.H = distance(start.x, start.y, start.z, goal.x, goal.y, goal.z)
+    start.parent = { x = 0, y = 0, z = 0 }
     table.insert(open, start)
 
     while not success and #open > 0 do
@@ -161,7 +158,7 @@ function module:find(width, height, start, goal, positionIsOpenFunc, useCache, e
 
         if not success then
 
-            local adjacentList = getAdjacent(width, height, current, positionIsOpenFunc, not excludeDiagonalMoving)
+            local adjacentList = getAdjacent(width, height, depth, current, positionIsOpenFunc, not excludeDiagonalMoving)
 
             for _, adjacent in ipairs(adjacentList) do
 
@@ -193,7 +190,7 @@ function module:find(width, height, start, goal, positionIsOpenFunc, useCache, e
 
     while node do
 
-        table.insert(path, 1, { x = node.x, y = node.y } )
+        table.insert(path, 1, { x = node.x, y = node.y, z = node.z } )
         node = listItem(closed, node.parent)
 
     end

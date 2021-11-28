@@ -10,39 +10,42 @@
 
 local luastar = require("lua-star")
 local map = { }
-local mapsize = 3000
-local numberOfTests = 1000
-local mapDensity = 0.65
+local mapsize = 20
+local numberOfTests = 1
+local mapDensity = 0.1
 
 local seed = os.time()
 math.randomseed(seed)
 print (string.format("Running with seed %d", seed))
 
-print (string.format("Building a map of %dx%d...", mapsize, mapsize))
+print (string.format("Building a map of %dx%dx%d...", mapsize, mapsize, mapsize))
 for x=1, mapsize do
     map[x] = {}
     for y=1, mapsize do
-        map[x][y] = math.random()
+		map[x][y] = {}
+		for z=1, mapsize do
+			map[x][y][z] = math.random()
+		end
     end
 end
 
 -- precalculate a bunch of start and goal positions
 -- doubled up for each start/goal pair
 
-print (string.format("Precalculating %d random start/goal positions...", mapsize * 2))
+print (string.format("Precalculating %d random start/goal positions...", numberOfTests * 2))
 local testPoints = { }
-for i = 1, mapsize * 2 do
-    table.insert (testPoints, { x = math.random(1, mapsize), y = math.random(1, mapsize)})
+for i = 1, numberOfTests * 2 do
+    table.insert (testPoints, { x = math.random(1, mapsize), y = math.random(1, mapsize), z = math.random(1, mapsize)})
 end
 
 print (string.format("Finding %d paths...", numberOfTests))
-function positionIsOpenFunc(x, y)
-    return map[x][y] > mapDensity
+function positionIsOpenFunc(x, y, z)
+    return map[x][y][z] > mapDensity
 end
 local testStart = os.clock()
 for testNumber = 1, numberOfTests do
     luastar:find(
-        mapsize, mapsize, -- map size
+        mapsize, mapsize, mapsize, -- map size
         table.remove (testPoints), -- start
         table.remove (testPoints), -- goal
         positionIsOpenFunc)
@@ -58,6 +61,6 @@ print (string.format([[
     totalSec, -- total seconds
     pathSec, -- seconds per path
     pathSec*1000, -- milliseconds per path
-    (mapsize*mapsize)/1000000, -- number of locations
+    (mapsize*mapsize*mapsize)/1000000, -- number of locations
     mapDensity*100 -- % open space on the map
 ))

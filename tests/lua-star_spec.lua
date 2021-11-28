@@ -2,8 +2,8 @@ describe("Lua star", function()
 
     -- start is always top left (1,1)
     -- goal is always bottom right (10, 10)
-    local start = { x = 1, y = 1 }
-    local goal = { x = 10, y = 10 }
+    local start = { x = 1, y = 1, z = 1 }
+    local goal = { x = 10, y = 10, z = 1 }
     local map = nil
 
     -- define some test maps (10 x 10)
@@ -22,16 +22,16 @@ describe("Lua star", function()
                 ]]
 
     local openmapSolution = {
-        { x = 1, y = 1 },
-        { x = 2, y = 2 },
-        { x = 3, y = 3 },
-        { x = 4, y = 4 },
-        { x = 5, y = 5 },
-        { x = 6, y = 6 },
-        { x = 7, y = 7 },
-        { x = 8, y = 8 },
-        { x = 9, y = 9 },
-        { x = 10, y = 10 },
+        { x = 1, y = 1, z = 1 },
+        { x = 2, y = 2, z = 1 },
+        { x = 3, y = 3, z = 1 },
+        { x = 4, y = 4, z = 1 },
+        { x = 5, y = 5, z = 1 },
+        { x = 6, y = 6, z = 1 },
+        { x = 7, y = 7, z = 1 },
+        { x = 8, y = 8, z = 1 },
+        { x = 9, y = 9, z = 1 },
+        { x = 10, y = 10, z = 1 },
     }
 
     local simplemap = [[
@@ -48,45 +48,45 @@ describe("Lua star", function()
                 ]]
 
     local simplemapSolution = {
-        { x = 1, y = 1 },
-        { x = 2, y = 2 },
-        { x = 3, y = 3 },
-        { x = 4, y = 4 },
-        { x = 4, y = 5 },
-        { x = 3, y = 6 },
-        { x = 2, y = 7 },
-        { x = 1, y = 8 },
-        { x = 2, y = 9 },
-        { x = 3, y = 10 },
-        { x = 4, y = 10 },
-        { x = 5, y = 10 },
-        { x = 6, y = 10 },
-        { x = 7, y = 10 },
-        { x = 8, y = 10 },
-        { x = 9, y = 10 },
-        { x = 10, y = 10 },
+        { x = 1, y = 1, z = 1 },
+        { x = 2, y = 2, z = 1 },
+        { x = 3, y = 3, z = 1 },
+        { x = 4, y = 4, z = 1 },
+        { x = 4, y = 5, z = 1 },
+        { x = 3, y = 6, z = 1 },
+        { x = 2, y = 7, z = 1 },
+        { x = 1, y = 8, z = 1 },
+        { x = 2, y = 9, z = 1 },
+        { x = 3, y = 10, z = 1 },
+        { x = 4, y = 10, z = 1 },
+        { x = 5, y = 10, z = 1 },
+        { x = 6, y = 10, z = 1 },
+        { x = 7, y = 10, z = 1 },
+        { x = 8, y = 10, z = 1 },
+        { x = 9, y = 10, z = 1 },
+        { x = 10, y = 10, z = 1 },
     }
 
     local simplemapDiagonalSolution = {
-        { x = 1, y = 1 },
-        { x = 1, y = 2 },
-        { x = 1, y = 3 },
-        { x = 1, y = 4 },
-        { x = 1, y = 5 },
-        { x = 1, y = 6 },
-        { x = 1, y = 7 },
-        { x = 1, y = 8 },
-        { x = 1, y = 9 },
-        { x = 2, y = 9 },
-        { x = 3, y = 9 },
-        { x = 4, y = 9 },
-        { x = 5, y = 9 },
-        { x = 6, y = 9 },
-        { x = 7, y = 9 },
-        { x = 8, y = 9 },
-        { x = 9, y = 9 },
-        { x = 9, y = 10 },
-        { x = 10, y = 10 },
+        { x = 1, y = 1, z = 1 },
+        { x = 1, y = 2, z = 1 },
+        { x = 1, y = 3, z = 1 },
+        { x = 1, y = 4, z = 1 },
+        { x = 1, y = 5, z = 1 },
+        { x = 1, y = 6, z = 1 },
+        { x = 1, y = 7, z = 1 },
+        { x = 1, y = 8, z = 1 },
+        { x = 1, y = 9, z = 1 },
+        { x = 2, y = 9, z = 1 },
+        { x = 3, y = 9, z = 1 },
+        { x = 4, y = 9, z = 1 },
+        { x = 5, y = 9, z = 1 },
+        { x = 6, y = 9, z = 1 },
+        { x = 7, y = 9, z = 1 },
+        { x = 8, y = 9, z = 1 },
+        { x = 9, y = 9, z = 1 },
+        { x = 9, y = 10, z = 1 },
+        { x = 10, y = 10, z = 1 },
     }
 
     local complexmap = [[
@@ -103,44 +103,44 @@ describe("Lua star", function()
                 ]]
 
     local complexmapSolution = {
-        { x = 1, y = 1 },
-        { x = 2, y = 1 },
-        { x = 3, y = 1 },
-        { x = 4, y = 1 },
-        { x = 5, y = 1 },
-        { x = 6, y = 1 },
-        { x = 7, y = 1 },
-        { x = 8, y = 1 },
-        { x = 9, y = 1 },
-        { x = 10, y = 2 },
-        { x = 9, y = 3 },
-        { x = 8, y = 3 },
-        { x = 7, y = 3 },
-        { x = 6, y = 3 },
-        { x = 5, y = 3 },
-        { x = 4, y = 3 },
-        { x = 3, y = 3 },
-        { x = 2, y = 3 },
-        { x = 1, y = 4 },
-        { x = 1, y = 5 },
-        { x = 1, y = 6 },
-        { x = 2, y = 7 },
-        { x = 3, y = 6 },
-        { x = 4, y = 5 },
-        { x = 5, y = 6 },
-        { x = 5, y = 7 },
-        { x = 5, y = 8 },
-        { x = 6, y = 9 },
-        { x = 7, y = 9 },
-        { x = 8, y = 8 },
-        { x = 7, y = 7 },
-        { x = 7, y = 6 },
-        { x = 8, y = 5 },
-        { x = 9, y = 6 },
-        { x = 10, y = 7 },
-        { x = 10, y = 8 },
-        { x = 10, y = 9 },
-        { x = 10, y = 10 },
+        { x = 1, y = 1, z = 1 },
+        { x = 2, y = 1, z = 1 },
+        { x = 3, y = 1, z = 1 },
+        { x = 4, y = 1, z = 1 },
+        { x = 5, y = 1, z = 1 },
+        { x = 6, y = 1, z = 1 },
+        { x = 7, y = 1, z = 1 },
+        { x = 8, y = 1, z = 1 },
+        { x = 9, y = 1, z = 1 },
+        { x = 10, y = 2, z = 1 },
+        { x = 9, y = 3, z = 1 },
+        { x = 8, y = 3, z = 1 },
+        { x = 7, y = 3, z = 1 },
+        { x = 6, y = 3, z = 1 },
+        { x = 5, y = 3, z = 1 },
+        { x = 4, y = 3, z = 1 },
+        { x = 3, y = 3, z = 1 },
+        { x = 2, y = 3, z = 1 },
+        { x = 1, y = 4, z = 1 },
+        { x = 1, y = 5, z = 1 },
+        { x = 1, y = 6, z = 1 },
+        { x = 2, y = 7, z = 1 },
+        { x = 3, y = 6, z = 1 },
+        { x = 4, y = 5, z = 1 },
+        { x = 5, y = 6, z = 1 },
+        { x = 5, y = 7, z = 1 },
+        { x = 5, y = 8, z = 1 },
+        { x = 6, y = 9, z = 1 },
+        { x = 7, y = 9, z = 1 },
+        { x = 8, y = 8, z = 1 },
+        { x = 7, y = 7, z = 1 },
+        { x = 7, y = 6, z = 1 },
+        { x = 8, y = 5, z = 1 },
+        { x = 9, y = 6, z = 1 },
+        { x = 10, y = 7, z = 1 },
+        { x = 10, y = 8, z = 1 },
+        { x = 10, y = 9, z = 1 },
+        { x = 10, y = 10, z = 1 },
     }
 
     local unsolvablemap = [[
@@ -167,8 +167,8 @@ describe("Lua star", function()
     end
 
     -- get the value at position xy on a map
-    local function mapTileIsOpen(x, y)
-        return map[ ((y-1) * 10) + x ] == "0"
+    local function mapTileIsOpen(x, y, z)
+        return z == 1 and map[ ((y-1) * 10) + x ] == "0"
     end
 
     local function printSolution(path)
@@ -200,7 +200,7 @@ describe("Lua star", function()
 
         local luastar = require("lua-star")
         makemap(openmap)
-        local path = luastar:find(mapsize, mapsize, start, goal, mapTileIsOpen)
+        local path = luastar:find(mapsize, mapsize, 1, start, goal, mapTileIsOpen)
         --printSolution(path)
         assert.are.equal(10, #path)
         assert.are.same(openmapSolution, path)
@@ -211,7 +211,7 @@ describe("Lua star", function()
 
         local luastar = require("lua-star")
         makemap(simplemap)
-        local path = luastar:find(mapsize, mapsize, start, goal, mapTileIsOpen)
+        local path = luastar:find(mapsize, mapsize, 1, start, goal, mapTileIsOpen)
         --printSolution(path)
         assert.are.equal(17, #path)
         assert.are.same(simplemapSolution, path)
@@ -223,7 +223,7 @@ describe("Lua star", function()
         local luastar = require("lua-star")
         local excludeDiagonals = true
         makemap(simplemap)
-        local path = luastar:find(mapsize, mapsize, start, goal, mapTileIsOpen, false, excludeDiagonals)
+        local path = luastar:find(mapsize, mapsize, 1, start, goal, mapTileIsOpen, false, excludeDiagonals)
         --printSolution(path)
         assert.are.equal(19, #path)
         assert.are.same(simplemapDiagonalSolution, path)
@@ -234,7 +234,7 @@ describe("Lua star", function()
 
         local luastar = require("lua-star")
         makemap(complexmap)
-        local path = luastar:find(mapsize, mapsize, start, goal, mapTileIsOpen)
+        local path = luastar:find(mapsize, mapsize, 1, start, goal, mapTileIsOpen)
         --printSolution(path)
         assert.are.equal(38, #path)
         assert.are.same(complexmapSolution, path)
@@ -245,7 +245,7 @@ describe("Lua star", function()
 
         local luastar = require("lua-star")
         makemap(unsolvablemap)
-        local path = luastar:find(mapsize, mapsize, start, goal, mapTileIsOpen)
+        local path = luastar:find(mapsize, mapsize, 1, start, goal, mapTileIsOpen)
         assert.is_false(path)
 
     end)
@@ -255,7 +255,7 @@ describe("Lua star", function()
         local luastar = require("lua-star")
         local excludeDiagonals = true
         makemap(unsolvablemap)
-        local path = luastar:find(mapsize, mapsize, start, goal, mapTileIsOpen, false, excludeDiagonals)
+        local path = luastar:find(mapsize, mapsize, 1, start, goal, mapTileIsOpen, false, excludeDiagonals)
         assert.is_false(path)
 
     end)
@@ -265,7 +265,7 @@ describe("Lua star", function()
         local luastar = require("lua-star")
         local excludeDiagonals = true
         makemap(complexmap)
-        local path = luastar:find(mapsize, mapsize, start, goal, mapTileIsOpen, false, excludeDiagonals)
+        local path = luastar:find(mapsize, mapsize, 1, start, goal, mapTileIsOpen, false, excludeDiagonals)
         assert.is_false(path)
 
     end)
@@ -274,8 +274,8 @@ describe("Lua star", function()
 
         local luastar = require("lua-star")
         makemap(openmap)
-        local path = luastar:find(mapsize, mapsize, start, goal, mapTileIsOpen)
-        local samepath = luastar:find(mapsize, mapsize, start, goal, mapTileIsOpen)
+        local path = luastar:find(mapsize, mapsize, 1, start, goal, mapTileIsOpen)
+        local samepath = luastar:find(mapsize, mapsize, 1, start, goal, mapTileIsOpen)
         assert.is_not.equal(path, samepath)
 
     end)
@@ -284,8 +284,8 @@ describe("Lua star", function()
 
         local luastar = require("lua-star")
         makemap(openmap)
-        local path = luastar:find(mapsize, mapsize, start, goal, mapTileIsOpen, true)
-        local samepath = luastar:find(mapsize, mapsize, start, goal, mapTileIsOpen, true)
+        local path = luastar:find(mapsize, mapsize, 1, start, goal, mapTileIsOpen, true)
+        local samepath = luastar:find(mapsize, mapsize, 1, start, goal, mapTileIsOpen, true)
         assert.are.equal(path, samepath)
 
     end)
@@ -294,7 +294,7 @@ describe("Lua star", function()
 
         local luastar = require("lua-star")
         makemap(openmap)
-        local path = luastar:find(mapsize, mapsize, start, goal, mapTileIsOpen, true)
+        local path = luastar:find(mapsize, mapsize, 1, start, goal, mapTileIsOpen, true)
         luastar:clearCached()
         assert.is_nil(luastar.cache)
 
